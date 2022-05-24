@@ -3,12 +3,17 @@ from django.http import HttpResponse
 
 from .models import Tender
 
-def redirect_view(request):
-	return HttpResponse('redirect_view')
+def index(request):
+	title = 'Главная'
+	context = {'title':title}
+	return render(request, 'todolist/main.html', context=context)
+
 
 def todo(request):
 	tenders = Tender.objects.all()
-	return HttpResponse(tenders)
+	title = ''
+	context = {'title':}
+	return render(request, 'todolist/todo.html')
 
 def category(request):
 	return HttpResponse('category')

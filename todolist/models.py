@@ -16,11 +16,19 @@ class Department(models.Model):
 	def __str__(self):
 		return self.name
 
+	class Meta:
+		verbose_name = 'Отдел'
+		verbose_name_plural = 'Отделы'
+
 class Currency(models.Model):
 	name = models.CharField(max_length=30)
 
 	def __str__(self):
 		return self.name
+
+	class Meta:
+		verbose_name = 'Валюта'
+		verbose_name_plural = 'Валюты'
 
 class Author(models.Model):
 	name = models.CharField(max_length=50)
@@ -28,12 +36,19 @@ class Author(models.Model):
 	def __str__(self):
 		return self.name
 
+	class Meta:
+		verbose_name = 'Сотрудник тендерного отдела'
+
 class Manager(models.Model):
 	name = models.CharField(max_length=50, verbose_name='Имя менеджера')
 	dept = models.ForeignKey(Department, on_delete = models.PROTECT)
 
 	def __str__(self):
 		return self.name
+
+	class Meta:
+		verbose_name = 'Менеджер'
+		verbose_name_plural = 'Менеджеры'
 
 class Tender(models.Model):
 	title = models.CharField(max_length=150, verbose_name='Название')
