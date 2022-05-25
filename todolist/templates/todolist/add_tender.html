@@ -1,0 +1,18 @@
+{% extends 'todolist/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<form method="post">
+    {% for fo in form %}
+        
+<div class="form-floating">
+  <textarea class="form-control" placeholder='#' id="floatingTextarea"></textarea>
+  <label for="floatingTextarea">{{fo}}</label>
+</div>
+
+    {% endfor %}
+</form>
+
+{% endblock %}
