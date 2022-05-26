@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class TenderCategory(models.Model):
 	name = models.CharField(max_length=40)
@@ -54,12 +55,12 @@ class Tender(models.Model):
 	title = models.CharField(max_length=150, verbose_name='Название')
 	created_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 	author = models.ForeignKey(Author, on_delete=models.PROTECT, verbose_name='Сотрудник тендерного отдела')
-	nominal_max_price = models.DecimalField(max_digits=2, decimal_places=1, default=0, verbose_name='НМЦ')
+	nominal_max_price = models.DecimalField(max_digits=12, decimal_places=2, default=0, verbose_name='НМЦ')
 	manager = models.ForeignKey(Manager, on_delete = models.PROTECT, verbose_name='Менеджер')
 	review_status = models.BooleanField(null=True, blank=True, verbose_name='Статус рассмотрения')
 	submit_date = models.DateTimeField(verbose_name='Дата подачи')
 	process_date = models.DateTimeField(verbose_name='Дата процедуры')
-	price = models.DecimalField(max_digits=2, decimal_places=1 ,null=True ,blank=True, verbose_name='Цена участия')
+	price = models.DecimalField(max_digits=12, decimal_places=2 ,null=True ,blank=True, verbose_name='Цена участия')
 	currency = models.ForeignKey(Currency, on_delete = models.PROTECT, verbose_name='Валюта')
 	result = models.BooleanField(null=True, blank=True, verbose_name='Результат')
 	comment = models.TextField(max_length=300, blank=True, verbose_name='Комментарий')
@@ -74,3 +75,4 @@ class Tender(models.Model):
 	def __str__(self):
 		return self.title
 
+	

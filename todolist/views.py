@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.core.exceptions import NON_FIELD_ERRORS
 
 from .models import Tender
 from .forms import TenderForm
@@ -11,9 +12,18 @@ def index(request):
 	return render(request, 'todolist/main.html', context=context)
 
 def add_tender(request):
-	form = TenderForm()
 	title = 'Добавить тендер'
-	return render(request, 'todolist/add_tender.html', context={'form':form, 'title':title})
+	if request.POST:
+		tender = TenderForm(request.POST)
+		if tender.errors:
+			return render(request, 'todolist/add_tender.html', context={'form':tender, 'title':title})
+		else:
+			if tender.is_valid():
+				tender.save()
+				return redirect('index_url')
+	else:
+		form = TenderForm()
+		return render(request, 'todolist/add_tender.html', context={'form':form, 'title':title})
 
 def todo(request):
 	tenders = Tender.objects.all()
