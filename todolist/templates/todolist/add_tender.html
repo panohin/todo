@@ -4,15 +4,10 @@
 
 {% block content %}
 
-<form method="post">
-    {% for fo in form %}
-        
-<div class="form-floating">
-  <textarea class="form-control" placeholder='#' id="floatingTextarea"></textarea>
-  <label for="floatingTextarea">{{fo}}</label>
-</div>
-
-    {% endfor %}
+<form method="post" action="{% url 'index_url' %}">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="add">
 </form>
 
 {% endblock %}
