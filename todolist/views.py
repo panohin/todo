@@ -32,17 +32,17 @@ def delete_tender(request, tender_id):
 def update_tender(request, tender_id):
 	title = 'Редактирование тендера'
 	if request.POST:
-		tender = TenderForm(request.POST)
-			if tender.errors:
-				return render(request, 'todolist/update_tender.html', context={'form':tender, 'title':title})
-			else:
-				if tender.is_valid():
-				tender.save()
+		bound_form = TenderForm(request.POST)
+		if bound_form.errors:
+			return render(request, 'todolist/update_tender.html', context={'form':bound_form, 'title':title})
+		else:
+			if bound_form.is_valid():
+				tender = Tender.objects.filter(pk=tender_id).update(**bound_form.cleaned_data)
 				return redirect('index_url')
 	else:
 		tender = Tender.objects.get(pk=tender_id)
 		form = TenderForm(instance=tender)
-		return render(request, 'todolist/update_tender.html', context={'title':title, 'form':form})
+		return render(request, 'todolist/update_tender.html', context={'title':title, 'form':form, 'tender':tender})
 
 
 def todo(request):
