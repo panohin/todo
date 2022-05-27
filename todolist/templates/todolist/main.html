@@ -16,7 +16,7 @@
         <p>НМЦ {{ tender.nominal_max_price }}</p>
         <p>Дата подачи {{ tender.submit_date }}</p>
         <p><a href="{{ tender.link }}">Ссылка</a></p>
-        <a href="#"><button type="button" class="btn btn-outline-warning">Изменить</button>
+        <a href="{% url 'update_tender_url' tender.id %}"><button type="button" class="btn btn-outline-warning">Изменить</button></a>
         <a href="{% url 'delete_tender_url' tender.id %}"><button type="button" class="btn btn-outline-danger">Удалить</button></a>
         </div>
     </div>

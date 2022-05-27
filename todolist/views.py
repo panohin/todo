@@ -29,6 +29,20 @@ def delete_tender(request, tender_id):
 	Tender.objects.filter(pk=tender_id).delete()
 	return redirect('index_url')
 
+def update_tender(request, tender_id):
+	title = 'Редактирование тендера'
+	if request.POST:
+		tender = TenderForm(request.POST)
+			if tender.errors:
+				return render(request, 'todolist/update_tender.html', context={'form':tender, 'title':title})
+			else:
+				if tender.is_valid():
+				tender.save()
+				return redirect('index_url')
+	else:
+		tender = Tender.objects.get(pk=tender_id)
+		form = TenderForm(instance=tender)
+		return render(request, 'todolist/update_tender.html', context={'title':title, 'form':form})
 
 
 def todo(request):
