@@ -25,6 +25,12 @@ def add_tender(request):
 		form = TenderForm()
 		return render(request, 'todolist/add_tender.html', context={'form':form, 'title':title})
 
+def delete_tender(request, tender_id):
+	Tender.objects.filter(pk=tender_id).delete()
+	return redirect('index_url')
+
+
+
 def todo(request):
 	tenders = Tender.objects.all()
 	title = ''
