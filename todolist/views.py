@@ -53,3 +53,4 @@ def todo(request):
 
 def category(request):
 	return HttpResponse('category')
+

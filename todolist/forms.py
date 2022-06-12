@@ -8,3 +8,4 @@ class TenderForm(forms.ModelForm):
 	class Meta:
 		model = Tender
 		fields = '__all__'
+

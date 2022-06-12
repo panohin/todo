@@ -1,0 +1,15 @@
+{% extends 'todolist/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<form method="post" action="{% url 'upload_kontur_url' %}">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="add">
+</form>
+
+{% endblock %}
