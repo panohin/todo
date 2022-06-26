@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<form method="post" action="{% url 'upload_kontur_url' %}">
+<form method="post" action="{% url 'kontur_mailey:upload_kontur_url' %}">
     {% csrf_token %}
     <table>
     {{ form.as_table }}

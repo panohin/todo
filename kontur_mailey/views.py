@@ -11,7 +11,7 @@ def upload_kontur(request):
 		form = UploadFileForm()
 		title = 'Загрузка файла Контур.Закупок'
 		context = {'title':title, 'form':form}
-		return render(request, 'todolist/upload_kontur.html', context=context)
+		return render(request, 'kontur_mailey/upload_kontur.html', context=context)
 
 def index(request):
 	return HttpResponse('<h3>Приложение KONTUR MAILEY</h3>')

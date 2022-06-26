@@ -2,6 +2,9 @@ from django.urls import path
 
 from .views import * 
 
+app_name = 'todolist'
+
+
 urlpatterns = [
     path('', index, name='index_url'),
     path('delete_tender/<int:tender_id>/', delete_tender, name='delete_tender_url'),

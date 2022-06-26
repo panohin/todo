@@ -14,13 +14,13 @@
 <!-- navbar -->
     <ul class="nav justify-content-center">
   <li class="nav-item">
-    <a class="nav-link" href="{% url 'index_url' %}">Главная</a>
+    <a class="nav-link" href="{% url 'todolist:index_url' %}">Главная</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{% url 'add_tender_url' %}">Добавить процедуру</a>
+    <a class="nav-link active" aria-current="page" href="{% url 'todolist:add_tender_url' %}">Добавить процедуру</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Рассылка Контур.Закупки</a>
+    <a class="nav-link" href="{% url 'kontur_mailey:index_url' %}">Рассылка Контур.Закупки</a>
   </li>
 </ul>
 
