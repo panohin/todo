@@ -19,6 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('todolist.urls', namespace='todolist')),
-    path('kontur_mailey/', include('kontur_mailey.urls', namespace='kontur_mailey'))    
+    path('', include('todolist.urls')),
+    path('kontur_mailey/', include('kontur_mailey.urls'))    
 ]

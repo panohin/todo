@@ -38,7 +38,7 @@ def update_tender(request, tender_id):
 		else:
 			if bound_form.is_valid():
 				tender = Tender.objects.filter(pk=tender_id).update(**bound_form.cleaned_data)
-				return redirect('index_url')
+				return redirect('todolist:index_url')
 	else:
 		tender = Tender.objects.get(pk=tender_id)
 		form = TenderForm(instance=tender)
