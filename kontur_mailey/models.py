@@ -12,12 +12,17 @@ class Target(models.Model):
 
 
 class FilterName(models.Model):
-	name = models.CharField(max_length=254, verbose_name='Название фильтра')
+	name = models.CharField(
+		max_length=254,
+		verbose_name='Название фильтра',
+		null=True
+	)
 	target = models.ForeignKey(
 		Target,
 		on_delete=models.SET_NULL,
-		related_name='filters', null=True
-		)
+		related_name='filters',
+		null=True
+	)
 	need_to_send = models.BooleanField(default=False)
 
 	class Meta:
@@ -29,9 +34,17 @@ class FilterName(models.Model):
 
 class Emails(models.Model):
 	email = models.EmailField(max_length=250)
+	title = models.CharField(max_length=250, null=True)
 	target = models.ForeignKey(
 		Target,
 		on_delete=models.SET_NULL,
 		null=True,
 		related_name='emails'
 		)
+
+	class Meta:
+		verbose_name = 'Емэйл'
+		verbose_name_plural = 'Емэйлы'
+
+	def __str__(self):
+		return self.email

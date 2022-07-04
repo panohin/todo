@@ -20,14 +20,14 @@ def add_tender(request):
 		else:
 			if tender.is_valid():
 				tender.save()
-				return redirect('index_url')
+				return redirect('todolist:index_url')
 	else:
 		form = TenderForm()
 		return render(request, 'todolist/add_tender.html', context={'form':form, 'title':title})
 
 def delete_tender(request, tender_id):
 	Tender.objects.filter(pk=tender_id).delete()
-	return redirect('index_url')
+	return redirect('todolist:index_url')
 
 def update_tender(request, tender_id):
 	title = 'Редактирование тендера'
