@@ -1,14 +1,85 @@
-import openpyxl 
+import openpyxl
+import os
+from copy import copy
+
+from .models import FilterName, Target
 
 
-def copy_sheet():
-	wb_target = openpyxl.Workbook()
-	target_sheet = wb_target.create_sheet('123')
+def copy_sheet(source_sheet, target_sheet):
+	copy_cells(source_sheet, target_sheet)
+	copy_sheet_attributes(source_sheet, target_sheet)
+
+def copy_cells(source_sheet, target_sheet):
+	for (row, col), source_cell in source_sheet._cells.items():
+		target_cell = target_sheet.cell(column=col, row=row)
+
+		target_cell._value = source_cell._value
+		target_cell.data_type = source_cell.data_type
+
+		if source_cell.has_style:
+			target_cell.font = copy(source_cell.font)
+			target_cell.border = copy(source_cell.border)
+			target_cell.fill = copy(source_cell.fill)
+			target_cell.number_format = copy(source_cell.number_format)
+			target_cell.protection = copy(source_cell.protection)
+			target_cell.alignment = copy(source_cell.alignment)
+
+		if source_cell.hyperlink:
+			target_cell._hyperlink = copy(source_cell._hyperlink)
+
+		if source_cell.comment:
+			target_cell.comment = copy(source_cell.comment)
+			
+def copy_sheet_attributes(source_sheet, target_sheet):
+	target_sheet.sheet_format = copy(source_sheet.sheet_format)
+	target_sheet.sheet_properties = copy(source_sheet.sheet_properties)
+	target_sheet.merged_cells = copy(source_sheet.merged_cells)
+	target_sheet.page_margins = copy(source_sheet.page_margins)
+	target_sheet.freeze_panes = copy(source_sheet.freeze_panes)
+
+	# copy row dimensions
+	for rn in range(len(source_sheet.row_dimensions)):
+		target_sheet.row_dimensions[rn] = copy(source_sheet.row_dimensions[rn])
+
+	if source_sheet.sheet_format.defaultColWidth is None:
+		print('Unable to copy default column wide')
+	else:
+		target_sheet.sheet_format.defaultColWidth = copy(source_sheet.sheet_format.defaultColWidth)
+
+	# set specific column width and hidden property
+	for key, value in source_sheet.column_dimensions.items():
+		target_sheet.column_dimensions[key].min = copy(source_sheet.column_dimensions[key].min)
+		target_sheet.column_dimensions[key].max = copy(source_sheet.column_dimensions[key].max)
+		target_sheet.column_dimensions[key].width = copy(source_sheet.column_dimensions[key].width)
+		target_sheet.column_dimensions[key].hidden = copy(source_sheet.column_dimensions[key].hidden)
 
 def handle_uploaded_file(file):
-	s = openpyxl.load_workbook(file)
-	print(dir(s))
-	for sheet_name in s.get_sheet_names():
-		sheet = s.get_sheet_by_name(sheet_name)
-		print(type(sheet))
+	# get set of filters need to send
+	filters = FilterName.objects.filter(need_to_send=True)
 	
+	wb_source = openpyxl.load_workbook(file)
+	sheets = wb_source.sheetnames
+	
+	for filter in filters:
+		if filter.name in sheets:
+			target = Target.objects.get(filters__name=filter.name)
+			
+			# doesnt works couse openpyxl bug
+			# if os.path.exists(f'kontur_mailey/{target.name}.xlsx'):
+			# 	wb_target = openpyxl.load_workbook(f'{target.name}.xlsx')
+			# else:
+			# 	wb_target = openpyxl.Workbook()
+			
+			wb_target = openpyxl.Workbook()
+			target_sheet = wb_target.create_sheet(filter.name, 0)
+			source_sheet = wb_source[filter.name]
+
+			copy_sheet(source_sheet, target_sheet)
+
+			wb_target.save(f'kontur_mailey/{filter.name}.xlsx')
+	
+
+
+	
+	 
+
